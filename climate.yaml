@@ -19,12 +19,6 @@ i2c:
   sda: D2
   scl: D1
 
-color:
-  - id: my_red
-    red: 100%
-    green: 3%
-    blue: 5%
-
 font:
   - file: "fonts/OpenSans-Regular.ttf"
     id: opensans
