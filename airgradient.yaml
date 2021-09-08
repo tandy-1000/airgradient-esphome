@@ -1,7 +1,7 @@
 esphome:
   name: airgradient
   platform: ESP8266
-  board: d1_mini_pro
+  board: d1_mini
 
 # Enable logging
 logger:
@@ -41,7 +41,7 @@ display:
           it.printf(0, 0, id(opensans), "CO2:");
           it.printf(it.get_width(), 10, id(opensans), TextAlign::TOP_RIGHT, "%.0fppm", id(co2).state);
           it.printf(0, 20, id(opensans), "PM2.5:");
-          it.printf(it.get_width(), 30, id(opensans), TextAlign::TOP_RIGHT, "%.0f", id(pm25).state);
+          it.printf(it.get_width(), 30, id(opensans), TextAlign::TOP_RIGHT, "%.0fug/m3", id(pm25).state);
 
 interval:
   - interval: 5s
