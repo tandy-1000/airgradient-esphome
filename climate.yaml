@@ -34,22 +34,20 @@ display:
   - platform: ssd1306_i2c
     id: oled
     model: "SSD1306 64x48"
+    brightness: 10%
     pages:
       - id: page1
         lambda: |-
-          it.printf(0, 0, id(opensans), "CO2:");
-          it.printf(it.get_width(), 10, id(opensans), TextAlign::TOP_RIGHT, "%.0fppm", id(co2).state);
-          it.printf(0, 20, id(opensans), "PM25: %.0f", id(pm25).state);
-          it.strftime(0, 30, id(opensans), "%H:%M", id(sntp_time).now());
+          it.printf(0, 0, id(opensans), "Temperature:");
+          it.printf(it.get_width(), 10, id(opensans), TextAlign::TOP_RIGHT, "%.0fC", id(temp).state);
+          it.printf(0, 20, id(opensans), "Humidity:");
+          it.printf(it.get_width(), 30, id(opensans), TextAlign::TOP_RIGHT, "%.0f%%", id(humidity).state);
       - id: page2
         lambda: |-
-          it.printf(0, 0, id(opensans), "Temp: %.0fC", id(temp).state);
-          it.printf(0, 10, id(opensans), "Hmdty: %.0f", id(humidity).state);
-          it.strftime(0, 30, id(opensans), "%H:%M", id(sntp_time).now());
-
-time:
-  - platform: sntp
-    id: sntp_time
+          it.printf(0, 0, id(opensans), "CO2:");
+          it.printf(it.get_width(), 10, id(opensans), TextAlign::TOP_RIGHT, "%.0fppm", id(co2).state);
+          it.printf(0, 20, id(opensans), "PM2.5:");
+          it.printf(it.get_width(), 30, id(opensans), TextAlign::TOP_RIGHT, "%.0f", id(pm25).state);
 
 interval:
   - interval: 5s
@@ -72,8 +70,6 @@ sensor:
     temperature:
       id: temp
       name: "Temperature"
-      filters:
-        - lambda: return x * (9.0/5.0) + 32.0;
     humidity:
       id: humidity
       name: "Humidity"
