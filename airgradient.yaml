@@ -1,5 +1,5 @@
 esphome:
-  name: climate-sensor
+  name: airgradient
   platform: ESP8266
   board: d1_mini
   
@@ -131,4 +131,4 @@ sensor:
     co2:
       id: co2
       name: "SenseAir CO2 Value"
-    update_interval: 60sl
+    update_interval: 60s
