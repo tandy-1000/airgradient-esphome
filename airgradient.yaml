@@ -2,52 +2,103 @@ esphome:
   name: airgradient
   platform: ESP8266
   board: d1_mini
-
+  
 # Enable logging
 logger:
 
 # Enable Home Assistant API
 api:
-  password: ""
 
 ota:
   password: ""
+
+wifi:
+  ssid: ""
+  password: ""
+
+  # Enable falback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: ""
+    password: ""
 
 captive_portal:
 
 i2c:
   sda: D2
   scl: D1
-
-font:
-  - file: "fonts/OpenSans-Regular.ttf"
-    id: opensans
-    size: 10
-
+    
+image:
+  - file: "images/happy.png"
+    id: happy
+    type: GRAYSCALE
+    
+  - file: "images/moderate.png"
+    id: moderate
+    type: GRAYSCALE
+  
+  - file: "images/miffed.png"
+    id: miffed
+    type: GRAYSCALE
+    
+  - file: "images/unhealthy.png"
+    id: unhealthy
+    type: GRAYSCALE
+    
+  - file: "images/vunhealthy.png"
+    id: vunhealthy
+    type: GRAYSCALE
+    
+  - file: "images/hazardous.png"
+    id: hazardous
+    type: GRAYSCALE
+    
 display:
   - platform: ssd1306_i2c
     id: oled
     model: "SSD1306 64x48"
-    brightness: 10%
+    brightness: 0%
+
     pages:
       - id: page1
         lambda: |-
-          it.printf(0, 0, id(opensans), "Temperature:");
-          it.printf(it.get_width(), 10, id(opensans), TextAlign::TOP_RIGHT, "%.0fC", id(temp).state);
-          it.printf(0, 20, id(opensans), "Humidity:");
-          it.printf(it.get_width(), 30, id(opensans), TextAlign::TOP_RIGHT, "%.0f%%", id(humidity).state);
+          it.image(0, 0, id(happy));
       - id: page2
         lambda: |-
-          it.printf(0, 0, id(opensans), "CO2:");
-          it.printf(it.get_width(), 10, id(opensans), TextAlign::TOP_RIGHT, "%.0fppm", id(co2).state);
-          it.printf(0, 20, id(opensans), "PM2.5:");
-          it.printf(it.get_width(), 30, id(opensans), TextAlign::TOP_RIGHT, "%.0fug/m3", id(pm25).state);
+          it.image(0, 0, id(moderate));
+      - id: page3
+        lambda: |-
+          it.image(0, 0, id(miffed));
+      - id: page4
+        lambda: |-
+          it.image(0, 0, id(unhealthy));
+      - id: page5
+        lambda: |-
+          it.image(0, 0, id(vunhealthy));
+      - id: page6
+        lambda: |-
+          it.image(0, 0, id(hazardous));
+
+time:
+  - platform: sntp
+    id: sntp_time
 
 interval:
   - interval: 5s
-    then:
-      - display.page.show_next: oled
-      - component.update: oled
+    then:  
+      display.page.show: !lambda |-
+        if (id(pm25).state < 12) {
+          return id(page1);
+        } else if (id(pm25).state < 35) {
+          return id(page2);
+        } else if (id(pm25).state < 55) {
+          return id(page3);
+        } else if (id(pm25).state < 150) {
+          return id(page4);
+        } else if (id(pm25).state < 250) {
+          return id(page5);
+        } else {
+          return id(page6);
+        }
 
 uart:
   - rx_pin: D5
