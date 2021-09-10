@@ -25,10 +25,6 @@ wifi:
     password: ""
 
 captive_portal:
-
-i2c:
-  sda: D2
-  scl: D1
     
 animation:
   - file: "images/HAPPYFACE.gif"
@@ -54,13 +50,23 @@ animation:
   - file: "images/HAZARDOUSFACE.gif"
     id: hazardous
     type: GRAYSCALE
-    
+
+i2c:
+  sda: D2
+  scl: D1
+  frequency: 800kHz
+
+# spi:
+#   clk_pin: D0
+#   mosi_pin: D1
+
 display:
   - platform: ssd1306_i2c
     id: oled
     model: "SSD1306 64x48"
-    brightness: 0%
-
+    reset_pin: D0
+    rotation: 90
+    brightness: 50%  
     pages:
       - id: page1
         lambda: |-
@@ -99,7 +105,7 @@ interval:
           } else {
             return id(page6);
           }
-  - interval: 1ms
+  - interval: 1s
     then:  
       lambda: |-
         if (id(pm25).state < 12) {
@@ -129,13 +135,13 @@ uart:
 sensor:
   - platform: sht3xd
     temperature:
-      id: temp
+      id: temperature
       name: "Temperature"
     humidity:
       id: humidity
       name: "Humidity"
     address: 0x44
-    update_interval: 5s
+    update_interval: 60s
   - platform: pmsx003
     type: PMS5003T
     uart_id: uart1
