@@ -9,7 +9,7 @@
   <tbody>
     <tr>
       <td>
-        <img src="images/HAPPYFACE.gif" alt="Happy Face" title="Happy">
+        <img src="images/HAPPYFACE.gif" alt="Happy Face" title="Happy Face">
       </td>
       <td>
         <img src="images/MODERATEFACE.gif" alt="Moderate" title="Moderate Face">
