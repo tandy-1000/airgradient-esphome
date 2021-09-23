@@ -10,7 +10,7 @@
   <tbody>
     <tr>
       <td>
-        <img src="images/happy.png" alt="Happy Face" title="Happy">
+        <img src="images/happy.png" alt="Happy Face" title="Happy Face">
       </td>
       <td>
         <img src="images/moderate.png" alt="Moderate" title="Moderate Face">
