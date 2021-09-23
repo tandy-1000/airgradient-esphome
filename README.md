@@ -6,7 +6,7 @@
  - Display a series of faces according to AQI readings
 
 
-<table>
+<table style="border: none;">
   <tbody>
     <tr>
       <td>
